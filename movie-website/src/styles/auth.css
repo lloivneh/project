@@ -1,76 +1,129 @@
 /* Nền tối toàn trang */
 .auth-page {
-    background: linear-gradient(135deg, #121212, #1f1f1f);
-    min-height: 100vh;
+    background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
+    min-height: calc(100vh - 70px); /* Trừ đi chiều cao header */
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 40px 20px;
     color: white;
     font-family: 'Segoe UI', sans-serif;
 }
 
 /* Khung form */
 .auth-container {
-    background: #1e1e1e;
+    background: rgba(30, 30, 30, 0.95);
     padding: 40px;
-    border-radius: 12px;
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
-    width: 360px;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(255, 64, 129, 0.15);
+    border: 1px solid rgba(255, 64, 129, 0.1);
+    width: 100%;
+    max-width: 400px;
     text-align: center;
+    backdrop-filter: blur(10px);
 }
 
 /* Tiêu đề */
 .auth-container h2 {
-    margin-bottom: 25px;
+    margin-bottom: 30px;
     color: #fff;
+    font-size: 1.8rem;
+    font-weight: 600;
 }
 
-/* Label và input */
+/* Form */
 .auth-form {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-}
-
-.auth-form label {
+    gap: 20px;
     text-align: left;
-    color: #aaa;
+}
+
+/* Label */
+.auth-form label {
+    color: #e0e0e0;
     font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 6px;
+    display: block;
 }
 
+/* Input */
 .auth-form input {
-    padding: 10px;
-    border-radius: 6px;
-    border: none;
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     outline: none;
-    background: #2a2a2a;
+    background: rgba(42, 42, 42, 0.8);
     color: white;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-/* Nút đăng nhập */
+.auth-form input:focus {
+    border-color: #ff4081;
+    background: rgba(42, 42, 42, 1);
+    box-shadow: 0 0 0 3px rgba(255, 64, 129, 0.1);
+}
+
+.auth-form input::placeholder {
+    color: #666;
+}
+
+/* Nút đăng ký */
 .auth-form button {
-    margin-top: 15px;
-    padding: 10px;
+    margin-top: 10px;
+    padding: 14px;
     border: none;
-    background: #ff3c78;
+    background: linear-gradient(135deg, #ff4081 0%, #ff6b9d 100%);
     color: white;
-    border-radius: 6px;
+    border-radius: 8px;
     cursor: pointer;
-    transition: 0.3s;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 64, 129, 0.3);
 }
 
 .auth-form button:hover {
-    background: #ff5c8a;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 64, 129, 0.4);
 }
 
-/* Link chuyển sang đăng ký */
+.auth-form button:active {
+    transform: translateY(0);
+}
+
+/* Link chuyển trang */
 .switch-text {
-    margin-top: 15px;
-    color: #ccc;
+    margin-top: 20px;
+    color: #999;
+    font-size: 0.9rem;
 }
 
 .switch-text span {
-    color: #ff3c78;
+    color: #ff4081;
     cursor: pointer;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.switch-text span:hover {
+    color: #ff6b9d;
     text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .auth-container {
+        padding: 30px 20px;
+        margin: 0 15px;
+    }
+    
+    .auth-container h2 {
+        font-size: 1.5rem;
+    }
 }

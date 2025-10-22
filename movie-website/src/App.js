@@ -1,35 +1,33 @@
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
+import Header from "./components/Header";
 import Home from "./pages/Home";
 import MovieDetail from "./pages/MovieDetail";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import "./styles/header.css"; // thêm dòng này
 
 function App() {
+  const location = useLocation();
+  
+  // Danh sách các trang không hiển thị header
+  const hideHeaderPaths = ['/login', '/register'];
+  const shouldShowHeader = !hideHeaderPaths.includes(location.pathname);
+
   return (
     <div>
-      <header className="site-header">
-        <nav className="main-nav">
-          <div className="nav-left">
-            <Link to="/">Trang chủ</Link>
-            <Link to="/actors">Diễn viên</Link>
-            <Link to="/country">Quốc gia</Link>
-            <Link to="/genre">Thể loại</Link>
-          </div>
+      {/* Chỉ hiển thị Header nếu không phải trang login/register */}
+      {shouldShowHeader && <Header />}
 
-          <div className="nav-right">
-            <Link to="/login" className="auth-link">Đăng nhập</Link>
-            <Link to="/register" className="auth-link">Đăng ký</Link>
-          </div>
-        </nav>
-      </header>
-
-      <main style={{ padding: "20px" }}>
+      <main>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/movie/:id" element={<MovieDetail />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/dien-vien" element={<div style={{color: 'white', padding: '20px'}}>Trang Diễn viên</div>} />
+          <Route path="/quoc-gia" element={<div style={{color: 'white', padding: '20px'}}>Trang Quốc gia</div>} />
+          <Route path="/the-loai" element={<div style={{color: 'white', padding: '20px'}}>Trang Thể loại</div>} />
+          <Route path="/phim-moi" element={<div style={{color: 'white', padding: '20px'}}>Trang Phim mới</div>} />
+          <Route path="/top-trending" element={<div style={{color: 'white', padding: '20px'}}>Trang Top Trending</div>} />
         </Routes>
       </main>
     </div>

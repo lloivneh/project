@@ -1,93 +1,129 @@
-/* ===== TOÀN TRANG ===== */
-body {
-    margin: 0;
-    background-color: #0f0f0f;
-    color: #fff;
-    font-family: "Segoe UI", sans-serif;
+/* ===== HEADER CHUNG ===== */
+header {
+    background-color: #111;
+    color: white;
+    padding: 16px 32px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-/* ===== THANH TRÊN CÙNG ===== */
-.header-top {
-    background-color: #1b1b1b;
-    padding: 15px 50px;
+/* ===== CONTAINER CHÍNH ===== */
+.header-container {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
 /* ===== LOGO ===== */
 .logo {
     font-size: 1.8rem;
     font-weight: bold;
-    color: #ff3c78;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    color: #ff4081;
 }
 
 .logo span {
-    color: #ff3c78;
+    color: white;
+    margin-left: 8px;
 }
 
-/* ===== NÚT ĐĂNG NHẬP / ĐĂNG KÝ ===== */
-.auth-buttons {
+/* ===== MENU ===== */
+.menu-bar ul {
+    list-style: none;
     display: flex;
-    gap: 15px;
+    gap: 24px;
+    margin: 0;
+    padding: 0;
+    flex-wrap: wrap;
 }
 
-.auth-buttons a {
+.menu-bar li a {
+    color: white;
     text-decoration: none;
-    padding: 8px 16px;
-    border-radius: 20px;
     font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.menu-bar li a:hover {
+    color: #ff4081;
+}
+
+/* ===== NÚT NỔI ĐĂNG NHẬP / ĐĂNG KÝ ===== */
+.floating-auth {
+    display: flex;
+    gap: 12px;
+}
+
+.btn-login,
+.btn-register {
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
     transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    position: relative;
 }
 
 .btn-login {
     background-color: transparent;
-    color: #fff;
-    border: 1px solid #ff3c78;
-}
-
-.btn-login:hover {
-    background-color: #ff3c78;
-    color: #fff;
+    border: 2px solid #ff4081;
+    color: #ff4081;
 }
 
 .btn-register {
-    background-color: #ff3c78;
-    color: #fff;
+    background: linear-gradient(135deg, #ff4081 0%, #ff6b9d 100%);
+    color: white;
     border: none;
 }
 
+/* Hiệu ứng hover - nút nổi lên */
+.btn-login:hover,
 .btn-register:hover {
-    background-color: #ff5c90;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(255, 64, 129, 0.4);
 }
 
-/* ===== THANH MENU ===== */
-.menu-bar {
-    background-color: #222;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    display: flex;
-    justify-content: center;
+.btn-login:hover {
+    background-color: rgba(255, 64, 129, 0.1);
 }
 
-.menu-bar ul {
-    list-style: none;
-    display: flex;
-    margin: 0;
-    padding: 12px 0;
-    gap: 40px;
+.btn-register:hover {
+    background: linear-gradient(135deg, #ff6b9d 0%, #ff4081 100%);
 }
 
-.menu-bar a {
-    text-decoration: none;
-    color: #ddd;
-    font-size: 1rem;
-    transition: color 0.3s;
+/* Hiệu ứng khi click */
+.btn-login:active,
+.btn-register:active {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 10px rgba(255, 64, 129, 0.3);
 }
 
-.menu-bar a:hover {
-    color: #ff3c78;
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    header {
+        padding: 12px 16px;
+    }
+    
+    .header-container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+    
+    .floating-auth {
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    .btn-login,
+    .btn-register {
+        flex: 1;
+        text-align: center;
+    }
+    
+    .menu-bar ul {
+        flex-direction: column;
+        gap: 12px;
+    }
 }
