@@ -1,0 +1,76 @@
+/* Nền tối toàn trang */
+.auth-page {
+    background: linear-gradient(135deg, #121212, #1f1f1f);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* Khung form */
+.auth-container {
+    background: #1e1e1e;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+    width: 360px;
+    text-align: center;
+}
+
+/* Tiêu đề */
+.auth-container h2 {
+    margin-bottom: 25px;
+    color: #fff;
+}
+
+/* Label và input */
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.auth-form label {
+    text-align: left;
+    color: #aaa;
+    font-size: 0.9rem;
+}
+
+.auth-form input {
+    padding: 10px;
+    border-radius: 6px;
+    border: none;
+    outline: none;
+    background: #2a2a2a;
+    color: white;
+}
+
+/* Nút đăng nhập */
+.auth-form button {
+    margin-top: 15px;
+    padding: 10px;
+    border: none;
+    background: #ff3c78;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.auth-form button:hover {
+    background: #ff5c8a;
+}
+
+/* Link chuyển sang đăng ký */
+.switch-text {
+    margin-top: 15px;
+    color: #ccc;
+}
+
+.switch-text span {
+    color: #ff3c78;
+    cursor: pointer;
+    text-decoration: underline;
+}

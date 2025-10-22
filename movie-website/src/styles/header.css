@@ -1,0 +1,93 @@
+/* ===== TOÀN TRANG ===== */
+body {
+    margin: 0;
+    background-color: #0f0f0f;
+    color: #fff;
+    font-family: "Segoe UI", sans-serif;
+}
+
+/* ===== THANH TRÊN CÙNG ===== */
+.header-top {
+    background-color: #1b1b1b;
+    padding: 15px 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+}
+
+/* ===== LOGO ===== */
+.logo {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #ff3c78;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.logo span {
+    color: #ff3c78;
+}
+
+/* ===== NÚT ĐĂNG NHẬP / ĐĂNG KÝ ===== */
+.auth-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.auth-buttons a {
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-login {
+    background-color: transparent;
+    color: #fff;
+    border: 1px solid #ff3c78;
+}
+
+.btn-login:hover {
+    background-color: #ff3c78;
+    color: #fff;
+}
+
+.btn-register {
+    background-color: #ff3c78;
+    color: #fff;
+    border: none;
+}
+
+.btn-register:hover {
+    background-color: #ff5c90;
+}
+
+/* ===== THANH MENU ===== */
+.menu-bar {
+    background-color: #222;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: center;
+}
+
+.menu-bar ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 12px 0;
+    gap: 40px;
+}
+
+.menu-bar a {
+    text-decoration: none;
+    color: #ddd;
+    font-size: 1rem;
+    transition: color 0.3s;
+}
+
+.menu-bar a:hover {
+    color: #ff3c78;
+}
