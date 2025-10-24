@@ -1,20 +1,37 @@
+import React, { useEffect, useState } from "react";
+import MovieGrid from "../components/MovieGrid";
 import "../styles/home.css";
 
-export default function Home() {
-    return (
-        <div className="home-page">
-            <div className="hero-section">
-                <h1>Chào mừng đến với WebPhim 🎥</h1>
-                <p>Xem phim chất lượng cao, tốc độ cực nhanh, giao diện hiện đại!</p>
-            </div>
+const Home = () => {
+    const [movies, setMovies] = useState([]);
 
-            <section className="movies-section">
-                <h2>Phim đề xuất</h2>
-                <div className="movie-grid">
-                    {/* Thêm danh sách phim ở đây */}
-                    <p style={{color: '#888'}}>Danh sách phim sẽ hiển thị ở đây...</p>
-                </div>
-            </section>
+    useEffect(() => {
+        // 🔹 Giả lập dữ liệu phim (sau này bạn thay bằng API thật)
+        const sampleMovies = [
+            {
+                id: 1,
+                title: "Parasite",
+                thumbnail: "/assets/images/parasite.jpg",
+                videoUrl: "/assets/videos/parasite-full.mp4",
+            },
+            {
+                id: 2,
+                title: "House on Wheels",
+                thumbnail: "/assets/images/house-on-wheels.jpg",
+                videoUrl: "/assets/videos/house-ep1.mp4",
+            },
+        ];
+        setMovies(sampleMovies);
+    }, []);
+
+    return (
+        <div className="home-container">
+            <div className="banner">
+                <h1>🎥 Phim mới nhất hôm nay</h1>
+            </div>
+            <MovieGrid movies={movies} />
         </div>
     );
-}
+};
+
+export default Home;

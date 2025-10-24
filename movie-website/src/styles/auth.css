@@ -1,129 +1,181 @@
-/* Nền tối toàn trang */
+/* -------- AUTH PAGE -------- */
 .auth-page {
-    background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
-    min-height: calc(100vh - 70px); /* Trừ đi chiều cao header */
     display: flex;
-    align-items: center;
     justify-content: center;
-    padding: 40px 20px;
-    color: white;
-    font-family: 'Segoe UI', sans-serif;
-}
-
-/* Khung form */
-.auth-container {
-    background: rgba(30, 30, 30, 0.95);
-    padding: 40px;
-    border-radius: 16px;
-    box-shadow: 0 8px 32px rgba(255, 64, 129, 0.15);
-    border: 1px solid rgba(255, 64, 129, 0.1);
-    width: 100%;
-    max-width: 400px;
-    text-align: center;
-    backdrop-filter: blur(10px);
-}
-
-/* Tiêu đề */
-.auth-container h2 {
-    margin-bottom: 30px;
-    color: #fff;
-    font-size: 1.8rem;
-    font-weight: 600;
-}
-
-/* Form */
-.auth-form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    text-align: left;
-}
-
-/* Label */
-.auth-form label {
+    align-items: center;
+    min-height: 100vh;
+    background: radial-gradient(circle at top, #1a1a2e, #0d0d0d);
     color: #e0e0e0;
-    font-size: 0.9rem;
-    font-weight: 500;
-    margin-bottom: 6px;
-    display: block;
+    font-family: "Poppins", sans-serif;
 }
 
-/* Input */
+.auth-card {
+    background: rgba(20, 20, 30, 0.9);
+    padding: 40px 45px;
+    border-radius: 16px;
+    box-shadow: 0 0 40px rgba(108, 99, 255, 0.25);
+    width: 400px;
+    text-align: center;
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(108, 99, 255, 0.3);
+    transition: all 0.3s ease-in-out;
+}
+
+.auth-card:hover {
+    box-shadow: 0 0 50px rgba(154, 140, 255, 0.4);
+    transform: translateY(-2px);
+}
+
+h2 {
+    color: #b8b8ff;
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    font-size: 14px;
+    color: #cccccc;
+    margin-bottom: 25px;
+}
+
+/* -------- INPUTS -------- */
+.auth-form label {
+    display: block;
+    text-align: left;
+    font-size: 13px;
+    color: #cfcfcf;
+    margin-top: 15px;
+}
+
 .auth-form input {
-    padding: 12px 16px;
-    border-radius: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    outline: none;
-    background: rgba(42, 42, 42, 0.8);
-    color: white;
-    font-size: 0.95rem;
-    transition: all 0.3s ease;
     width: 100%;
-    box-sizing: border-box;
+    padding: 10px;
+    margin-top: 6px;
+    border-radius: 8px;
+    border: 1px solid #3a3a5e;
+    background: #1b1b2f;
+    color: #e0e0ff;
+    transition: border 0.3s ease, box-shadow 0.3s ease;
 }
 
 .auth-form input:focus {
-    border-color: #ff4081;
-    background: rgba(42, 42, 42, 1);
-    box-shadow: 0 0 0 3px rgba(255, 64, 129, 0.1);
+    border-color: #6c63ff;
+    outline: none;
+    box-shadow: 0 0 10px rgba(108, 99, 255, 0.4);
 }
 
-.auth-form input::placeholder {
-    color: #666;
-}
-
-/* Nút đăng ký */
-.auth-form button {
-    margin-top: 10px;
-    padding: 14px;
+/* -------- BUTTONS -------- */
+.auth-btn {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, #6c63ff, #9a8cff);
     border: none;
-    background: linear-gradient(135deg, #ff4081 0%, #ff6b9d 100%);
+    border-radius: 10px;
+    margin-top: 25px;
     color: white;
-    border-radius: 8px;
-    cursor: pointer;
     font-weight: 600;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(255, 64, 129, 0.3);
+    cursor: pointer;
+    transition: 0.3s ease;
 }
 
-.auth-form button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(255, 64, 129, 0.4);
+.auth-btn:hover {
+    background: linear-gradient(135deg, #7a72ff, #b8b8ff);
+    transform: translateY(-1px);
 }
 
-.auth-form button:active {
-    transform: translateY(0);
-}
-
-/* Link chuyển trang */
-.switch-text {
+/* -------- LINKS -------- */
+.auth-footer {
     margin-top: 20px;
-    color: #999;
-    font-size: 0.9rem;
+    font-size: 14px;
 }
 
-.switch-text span {
-    color: #ff4081;
-    cursor: pointer;
+.auth-footer a {
+    color: #9a8cff;
     text-decoration: none;
-    font-weight: 600;
-    transition: color 0.3s ease;
+    transition: 0.3s ease;
 }
 
-.switch-text span:hover {
-    color: #ff6b9d;
-    text-decoration: underline;
+.auth-footer a:hover {
+    color: #b8b8ff;
 }
 
-/* Responsive */
-@media (max-width: 480px) {
-    .auth-container {
-        padding: 30px 20px;
-        margin: 0 15px;
-    }
-    
-    .auth-container h2 {
-        font-size: 1.5rem;
-    }
+/* -------- OPTIONS -------- */
+.auth-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    font-size: 13px;
+}
+
+.checkbox input {
+    margin-right: 6px;
+}
+
+.forgot-link {
+    color: #9a8cff;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.forgot-link:hover {
+    color: #b8b8ff;
+}
+
+/* -------- DIVIDER -------- */
+.divider {
+    margin: 25px 0 15px;
+    text-align: center;
+    position: relative;
+    color: #999;
+    font-size: 13px;
+}
+
+.divider::before,
+.divider::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 40%;
+    height: 1px;
+    background: #333;
+}
+
+.divider::before {
+    left: 0;
+}
+
+.divider::after {
+    right: 0;
+}
+
+/* -------- SOCIAL LOGIN -------- */
+.social-login {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.social-btn {
+    flex: 1;
+    border: none;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 14px;
+    cursor: pointer;
+    color: #fff;
+    transition: 0.3s ease;
+}
+
+.social-btn.facebook {
+    background: #3b5998;
+}
+
+.social-btn.google {
+    background: #db4437;
+}
+
+.social-btn:hover {
+    opacity: 0.9;
+    transform: scale(1.03);
 }

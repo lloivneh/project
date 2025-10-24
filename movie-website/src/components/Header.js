@@ -1,28 +1,31 @@
-import { Link } from "react-router-dom";
+import React from "react";
 import "../styles/header.css";
+import { Link } from "react-router-dom";
 
-export default function Header() {
+const Header = () => {
     return (
-        <header>
-            <div className="header-container">
-                <div className="logo">
-                    🎬 <span>WebPhim</span>
-                </div>
-                <nav className="menu-bar">
-                    <ul>
-                        <li><Link to="/">Trang chủ</Link></li>
-                        <li><Link to="/dien-vien">Diễn viên</Link></li>
-                        <li><Link to="/quoc-gia">Quốc gia</Link></li>
-                        <li><Link to="/the-loai">Thể loại</Link></li>
-                        <li><Link to="/phim-moi">Phim mới</Link></li>
-                        <li><Link to="/top-trending">Top Trending</Link></li>
-                    </ul>
-                </nav>
-                <div className="floating-auth">
-                    <Link to="/login" className="btn-login">Đăng nhập</Link>
-                    <Link to="/register" className="btn-register">Đăng ký</Link>
-                </div>
+        <header className="header">
+            {/* LOGO */}
+            <div className="header-left">
+                <span role="img" aria-label="movie" style={{ fontSize: "22px" }}>🎬</span>
+                <h1>MovieZone</h1>
+            </div>
+
+            {/* NAVIGATION */}
+            <nav className="nav">
+                <Link to="/">Trang chủ</Link>
+                <Link to="/category">Thể loại</Link>
+                <Link to="/nation">Quốc gia</Link>
+                <Link to="/actors">Diễn viên</Link>
+            </nav>
+
+            {/* BUTTONS */}
+            <div className="header-buttons">
+                <Link className="btn" to="/login">Đăng nhập</Link>
+                <Link className="btn" to="/register">Đăng ký</Link>
             </div>
         </header>
     );
-}
+};
+
+export default Header;

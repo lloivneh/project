@@ -1,117 +1,139 @@
-const express = require("express");
-const mysql = require("mysql2");
-const cors = require("cors");
-const bodyParser = require("body-parser");
-const bcrypt = require("bcrypt");
+import express from "express";
+import mysql from "mysql2";
+import cors from "cors";
+import bcrypt from "bcrypt";
+import nodemailer from "nodemailer";
+import crypto from "crypto";
+import dotenv from "dotenv";
 
+dotenv.config();
 const app = express();
+app.use(express.json());
 app.use(cors());
-app.use(bodyParser.json());
 
-// ✅ Kết nối MySQL
+// ---------------------- DATABASE ----------------------
 const db = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "#Smileishope123", // đổi theo MySQL của bạn
-    database: "movie_website",
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
 });
 
 db.connect((err) => {
-    if (err) {
-        console.log("❌ Lỗi kết nối MySQL:", err);
-    } else {
-        console.log("✅ Đã kết nối MySQL thành công!");
-    }
+    if (err) console.error("❌ Lỗi kết nối DB:", err);
+    else console.log("✅ Kết nối MySQL thành công!");
 });
 
-// ✅ API ĐĂNG KÝ NGƯỜI DÙNG
-app.post("/register", async (req, res) => {
-    const { fullname, username, email, password } = req.body;
-
-    if (!fullname || !username || !email || !password) {
-        return res.status(400).json({ message: "Vui lòng điền đầy đủ thông tin!" });
-    }
-
-    try {
-        // Kiểm tra username hoặc email đã tồn tại chưa
-        const [existingUser] = await db
-            .promise()
-            .query("SELECT * FROM users WHERE username = ? OR email = ?", [username, email]);
-
-        if (existingUser.length > 0) {
-            return res.status(409).json({ message: "Tên đăng nhập hoặc email đã tồn tại!" });
-        }
-
-        // Mã hóa mật khẩu
-        const hashedPassword = await bcrypt.hash(password, 10);
-
-        // Lưu vào DB
-        await db
-            .promise()
-            .query(
-                "INSERT INTO users (fullname, username, email, password) VALUES (?, ?, ?, ?)",
-                [fullname, username, email, hashedPassword]
-            );
-
-        res.status(200).json({ message: "Đăng ký thành công!" });
-    } catch (error) {
-        console.error("❌ Lỗi đăng ký:", error);
-        res.status(500).json({ message: "Lỗi khi đăng ký tài khoản!" });
-    }
-});
-
-// ✅ API ĐĂNG NHẬP
-app.post("/login", async (req, res) => {
-    const { username, password } = req.body;
-
-    if (!username || !password) {
+// ---------------------- REGISTER ----------------------
+app.post("/api/auth/register", async (req, res) => {
+    const { username, email, password } = req.body;
+    if (!username || !email || !password)
         return res.status(400).json({ message: "Vui lòng nhập đủ thông tin!" });
-    }
 
-    try {
-        const [user] = await db
-            .promise()
-            .query("SELECT * FROM users WHERE username = ?", [username]);
+    const hashedPassword = await bcrypt.hash(password, 10);
+    db.query("SELECT * FROM users WHERE email = ?", [email], (err, result) => {
+        if (result.length > 0)
+            return res.status(400).json({ message: "Email đã được sử dụng!" });
 
-        if (user.length === 0) {
-            return res.status(404).json({ message: "Không tìm thấy tài khoản!" });
-        }
-
-        const validPassword = await bcrypt.compare(password, user[0].password);
-        if (!validPassword) {
-            return res.status(401).json({ message: "Mật khẩu không đúng!" });
-        }
-
-        // ✅ Đăng nhập thành công
-        res.status(200).json({
-            message: "Đăng nhập thành công!",
-            user: {
-                id: user[0].id,
-                username: user[0].username,
-                email: user[0].email,
-            },
-        });
-    } catch (error) {
-        console.error("❌ Lỗi đăng nhập:", error);
-        res.status(500).json({ message: "Lỗi khi đăng nhập!" });
-    }
+        db.query(
+            "INSERT INTO users (username, email, password) VALUES (?, ?, ?)",
+            [username, email, hashedPassword],
+            (err) => {
+                if (err) res.status(500).json({ message: "Lỗi server!" });
+                else res.json({ message: "Đăng ký thành công!" });
+            }
+        );
+    });
 });
 
+// ---------------------- LOGIN ----------------------
+app.post("/api/auth/login", (req, res) => {
+    const { email, password } = req.body;
+    db.query("SELECT * FROM users WHERE email = ?", [email], async (err, result) => {
+        if (err) return res.status(500).json({ message: "Lỗi server!" });
+        if (result.length === 0) return res.status(404).json({ message: "Tài khoản không tồn tại!" });
 
-// ✅ API QUÊN MẬT KHẨU (chuẩn bị sẵn)
-app.post("/forgot-password", async (req, res) => {
+        const user = result[0];
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) return res.status(401).json({ message: "Sai mật khẩu!" });
+
+        res.json({ message: "Đăng nhập thành công!", user: { id: user.id, username: user.username } });
+    });
+});
+
+// ---------------------- FORGOT PASSWORD ----------------------
+app.post("/api/auth/forgot-password", (req, res) => {
     const { email } = req.body;
-    const [user] = await db.promise().query("SELECT * FROM users WHERE email = ?", [email]);
+    if (!email) return res.status(400).json({ message: "Vui lòng nhập email!" });
 
-    if (user.length === 0) {
-        return res.status(404).json({ message: "Không tìm thấy email này!" });
-    }
+    db.query("SELECT * FROM users WHERE email = ?", [email], (err, result) => {
+        if (err) return res.status(500).json({ message: "Lỗi server!" });
+        if (result.length === 0) return res.status(404).json({ message: "Email không tồn tại!" });
 
-    // (Tạm thời chỉ báo thành công, sau này thêm gửi email reset password)
-    res.status(200).json({ message: "Hệ thống đã gửi hướng dẫn khôi phục mật khẩu!" });
+        const token = crypto.randomBytes(32).toString("hex");
+        const expireTime = new Date(Date.now() + 60 * 60 * 1000); // 1 giờ
+
+        db.query(
+            "UPDATE users SET reset_token = ?, reset_token_expire = ? WHERE email = ?",
+            [token, expireTime, email],
+            (err) => {
+                if (err) return res.status(500).json({ message: "Lỗi server!" });
+
+                const transporter = nodemailer.createTransport({
+                    service: "gmail",
+                    auth: {
+                        user: process.env.EMAIL_USER,
+                        pass: process.env.EMAIL_PASS,
+                    },
+                });
+
+                const resetLink = `${process.env.CLIENT_URL}/reset-password?token=${token}`;
+                const mailOptions = {
+                    from: `MovieZone <${process.env.EMAIL_USER}>`,
+                    to: email,
+                    subject: "Khôi phục mật khẩu MovieZone",
+                    text: `Nhấn vào liên kết sau để đặt lại mật khẩu (có hiệu lực 1 giờ): ${resetLink}`,
+                };
+
+                transporter.sendMail(mailOptions, (error) => {
+                    if (error) {
+                        console.error(error);
+                        return res.status(500).json({ message: "Không thể gửi email!" });
+                    }
+                    res.json({ message: "Đã gửi email khôi phục mật khẩu!" });
+                });
+            }
+        );
+    });
 });
 
-// ✅ Chạy server
-app.listen(5000, () => {
-    console.log("🚀 Server đang chạy tại http://localhost:5000");
+// ---------------------- RESET PASSWORD ----------------------
+app.post("/api/auth/reset-password", async (req, res) => {
+    const { token, password } = req.body;
+    if (!token || !password)
+        return res.status(400).json({ message: "Thiếu token hoặc mật khẩu!" });
+
+    db.query(
+        "SELECT * FROM users WHERE reset_token = ? AND reset_token_expire > NOW()",
+        [token],
+        async (err, result) => {
+            if (err) return res.status(500).json({ message: "Lỗi server!" });
+            if (result.length === 0)
+                return res.status(400).json({ message: "Token không hợp lệ hoặc đã hết hạn!" });
+
+            const hashedPassword = await bcrypt.hash(password, 10);
+            db.query(
+                "UPDATE users SET password = ?, reset_token = NULL, reset_token_expire = NULL WHERE id = ?",
+                [hashedPassword, result[0].id],
+                (err) => {
+                    if (err) return res.status(500).json({ message: "Cập nhật thất bại!" });
+                    res.json({ message: "Đặt lại mật khẩu thành công!" });
+                }
+            );
+        }
+    );
 });
+
+app.listen(process.env.PORT, () =>
+    console.log(`🚀 Server chạy tại http://localhost:${process.env.PORT}`)
+);

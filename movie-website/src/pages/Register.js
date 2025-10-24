@@ -1,126 +1,87 @@
-import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import axios from "axios";
+import React, { useState } from "react";
 import "../styles/auth.css";
 
-export default function Register() {
-    const navigate = useNavigate();
-    const [form, setForm] = useState({
-        fullname: "",
-        email: "",
+const Register = () => {
+    const [formData, setFormData] = useState({
         username: "",
+        email: "",
         password: "",
-        confirmPassword: ""
+        confirmPassword: "",
     });
 
-    const [message, setMessage] = useState("");
-
     const handleChange = (e) => {
-        setForm({ ...form, [e.target.name]: e.target.value });
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value,
+        });
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-
-        // ✅ Kiểm tra mật khẩu khớp
-        if (form.password !== form.confirmPassword) {
-            setMessage("❌ Mật khẩu xác nhận không khớp!");
-            return;
-        }
-
-        try {
-            const res = await axios.post("http://localhost:5000/register", {
-                fullname: form.fullname,
-                email: form.email,
-                username: form.username,
-                password: form.password,
-            });
-
-            if (res.status === 200) {
-                setMessage("✅ Đăng ký thành công!");
-                setTimeout(() => navigate("/login"), 1500);
-            }
-        } catch (err) {
-            console.error(err);
-            setMessage("❌ Đăng ký thất bại. Vui lòng thử lại!");
-        }
+        console.log("Registering:", formData);
+        // TODO: Gọi API backend tại đây
     };
 
     return (
         <div className="auth-page">
-            <div className="auth-container">
-                <h2>Đăng ký tài khoản</h2>
-
-                {message && <p className="message">{message}</p>}
+            <div className="auth-card">
+                <h2>Đăng Ký</h2>
+                <p className="subtitle">
+                    Tạo tài khoản để trải nghiệm đầy đủ tính năng
+                </p>
 
                 <form onSubmit={handleSubmit} className="auth-form">
-                    <div>
-                        <label>Họ và tên</label>
-                        <input
-                            type="text"
-                            name="fullname"
-                            placeholder="Nhập họ và tên..."
-                            value={form.fullname}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
+                    <label>Tên người dùng</label>
+                    <input
+                        type="text"
+                        name="username"
+                        placeholder="Tên người dùng"
+                        value={formData.username}
+                        onChange={handleChange}
+                        required
+                    />
 
-                    <div>
-                        <label>Email</label>
-                        <input
-                            type="email"
-                            name="email"
-                            placeholder="Nhập email..."
-                            value={form.email}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
+                    <label>Email</label>
+                    <input
+                        type="email"
+                        name="email"
+                        placeholder="Nhập email của bạn"
+                        value={formData.email}
+                        onChange={handleChange}
+                        required
+                    />
 
-                    <div>
-                        <label>Tên đăng nhập</label>
-                        <input
-                            type="text"
-                            name="username"
-                            placeholder="Tạo tên đăng nhập..."
-                            value={form.username}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
+                    <label>Mật khẩu</label>
+                    <input
+                        type="password"
+                        name="password"
+                        placeholder="Nhập mật khẩu"
+                        value={formData.password}
+                        onChange={handleChange}
+                        required
+                    />
 
-                    <div>
-                        <label>Mật khẩu</label>
-                        <input
-                            type="password"
-                            name="password"
-                            placeholder="Tạo mật khẩu..."
-                            value={form.password}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
+                    <label>Xác nhận mật khẩu</label>
+                    <input
+                        type="password"
+                        name="confirmPassword"
+                        placeholder="Nhập lại mật khẩu"
+                        value={formData.confirmPassword}
+                        onChange={handleChange}
+                        required
+                    />
 
-                    <div>
-                        <label>Nhập lại mật khẩu</label>
-                        <input
-                            type="password"
-                            name="confirmPassword"
-                            placeholder="Xác nhận mật khẩu..."
-                            value={form.confirmPassword}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-
-                    <button type="submit">Đăng ký</button>
+                    <button type="submit" className="auth-btn">
+                        Đăng ký
+                    </button>
                 </form>
 
-                <p className="switch-text">
-                    Đã có tài khoản? <Link to="/login"><span>Đăng nhập</span></Link>
+                <p className="auth-footer">
+                    Đã có tài khoản? <a href="/login">Đăng nhập ngay</a>
                 </p>
             </div>
         </div>
     );
-}
+};
+
+export default Register;

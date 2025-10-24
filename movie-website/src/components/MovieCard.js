@@ -1,13 +1,18 @@
-import "./../styles/movie.css";
+import React from "react";
+import "../styles/movie.css";
 
-export default function MovieCard({ movie }) {
+const MovieCard = ({ movie }) => {
     return (
         <div className="movie-card">
-            <img src={movie.image} alt={movie.title} />
+            <img src={movie.thumbnail} alt={movie.title} className="movie-thumbnail" />
             <div className="movie-info">
                 <h3>{movie.title}</h3>
-                <p>{movie.year}</p>
+                <a href={movie.videoUrl} target="_blank" rel="noopener noreferrer">
+                    ▶ Xem ngay
+                </a>
             </div>
         </div>
     );
-}
+};
+
+export default MovieCard;

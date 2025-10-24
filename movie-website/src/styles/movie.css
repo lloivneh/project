@@ -1,20 +1,27 @@
 .movie-card {
-    position: relative;
+    background-color: #222;
+    border-radius: 10px;
     overflow: hidden;
-    border-radius: 12px;
     transition: transform 0.3s ease;
+    text-align: center;
 }
 
 .movie-card:hover {
     transform: scale(1.05);
 }
 
-.movie-info {
-    position: absolute;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.6);
+.movie-thumbnail {
     width: 100%;
-    color: white;
+    height: 280px;
+    object-fit: cover;
+}
+
+.movie-info {
     padding: 10px;
-    text-align: center;
+}
+
+.movie-info a {
+    color: #e50914;
+    text-decoration: none;
+    font-weight: bold;
 }

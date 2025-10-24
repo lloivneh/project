@@ -1,43 +1,42 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import React, { useState } from "react";
 import "../styles/auth.css";
 
-export default function Login() {
-    const navigate = useNavigate();
-    const [form, setForm] = useState({ username: "", password: "" });
+const Login = () => {
+    const [formData, setFormData] = useState({
+        email: "",
+        password: "",
+        remember: false,
+    });
 
     const handleChange = (e) => {
-        setForm({ ...form, [e.target.name]: e.target.value });
+        const { name, value, type, checked } = e.target;
+        setFormData({
+            ...formData,
+            [name]: type === "checkbox" ? checked : value,
+        });
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        try {
-            const res = await axios.post("http://localhost:5000/login", form);
-
-            if (res.status === 200) {
-                localStorage.setItem("user", JSON.stringify(res.data.user));
-                alert("Đăng nhập thành công!");
-                navigate("/");
-                window.location.reload();
-            }
-        } catch (err) {
-            alert(err.response?.data?.message || "Sai tên đăng nhập hoặc mật khẩu!");
-        }
+        console.log("Logging in:", formData);
+        // TODO: Gọi API backend tại đây
     };
 
     return (
         <div className="auth-page">
-            <div className="auth-container">
-                <h2>Đăng nhập</h2>
+            <div className="auth-card">
+                <h2>Đăng Nhập</h2>
+                <p className="subtitle">
+                    Chào mừng trở lại! Đăng nhập để tiếp tục xem phim 🎬
+                </p>
+
                 <form onSubmit={handleSubmit} className="auth-form">
-                    <label>Tên đăng nhập</label>
+                    <label>Email</label>
                     <input
-                        type="text"
-                        name="username"
-                        placeholder="Nhập tên đăng nhập..."
-                        value={form.username}
+                        type="email"
+                        name="email"
+                        placeholder="Nhập email của bạn"
+                        value={formData.email}
                         onChange={handleChange}
                         required
                     />
@@ -46,19 +45,47 @@ export default function Login() {
                     <input
                         type="password"
                         name="password"
-                        placeholder="Nhập mật khẩu..."
-                        value={form.password}
+                        placeholder="Nhập mật khẩu"
+                        value={formData.password}
                         onChange={handleChange}
                         required
                     />
 
-                    <button type="submit">Đăng nhập</button>
+                    <div className="auth-options">
+                        <label className="checkbox">
+                            <input
+                                type="checkbox"
+                                name="remember"
+                                checked={formData.remember}
+                                onChange={handleChange}
+                            />
+                            Ghi nhớ đăng nhập
+                        </label>
+                        <a href="/forgot-password" className="forgot-link">
+                            Quên mật khẩu?
+                        </a>
+                    </div>
+
+                    <button type="submit" className="auth-btn">
+                        Đăng Nhập
+                    </button>
                 </form>
-                <p className="switch-text">
-                    Chưa có tài khoản?{" "}
-                    <span onClick={() => navigate("/register")}>Đăng ký ngay</span>
+
+                <p className="auth-footer">
+                    Chưa có tài khoản? <a href="/register">Đăng ký ngay</a>
                 </p>
+
+                <div className="divider">
+                    <span>Hoặc đăng nhập bằng</span>
+                </div>
+
+                <div className="social-login">
+                    <button className="social-btn facebook">Facebook</button>
+                    <button className="social-btn google">Google</button>
+                </div>
             </div>
         </div>
     );
-}
+};
+
+export default Login;

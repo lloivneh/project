@@ -1,16 +1,15 @@
+import React from "react";
 import MovieCard from "./MovieCard";
+import "../styles/home.css";
 
-export default function MovieGrid({ movies }) {
-    if (!movies || movies.length === 0) {
-        return <p>Không có phim nào để hiển thị.</p>;
-    }
-
+const MovieGrid = ({ movies }) => {
     return (
         <div className="movie-grid">
-            {movies.map((m) => (
-                <MovieCard key={m.id} movie={m} />
+            {movies.map((movie) => (
+                <MovieCard key={movie.id} movie={movie} />
             ))}
         </div>
     );
-}
+};
 
+export default MovieGrid;
